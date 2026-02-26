@@ -1,0 +1,25 @@
+- title: Interactive Design of Developable Surfaces by Patch-based Learning
+  authors: <a href="https://chaoyunwang.github.io/">Chaoyun Wang</a>, <strong>Jianlei Wang</strong>, <a href="https://scholar.google.com/citations?hl=zh-CN&user=WbG27wQAAAAJ">Chengcheng Tang</a>, <a href="https://scholar.google.com/citations?hl=zh-CN&user=iqMe3p8AAAAJ">Nanning Zheng</a>, <a href="https://caiguijiang.github.io/">Caigui Jiang</a>
+  conference_short: CAD
+  conference: Computer-Aided Design, 2025
+  year: 2025
+  ccf: B
+  note: ""  # 可选红色备注，比如 "Selected for video trailer."
+  pdf: https://www.sciencedirect.com/science/article/pii/S0010448525001319
+  code: https://github.com/chaoyunwang/I-DevNet
+  page: ""
+  bibtex: ./publications/2025/CAD-02/bibtex.txt
+  image: ./publications/2025/CAD-02/figure.png
+
+- title: Modular Shape Modeling with Controllable Discrete Equivalence Class Distribution
+  authors: <strong>Jianlei Wang</strong>, Zeyang Wu, Yongqi Tian, <a href="https://caiguijiang.github.io/">Caigui Jiang</a>
+  conference_short: CAD
+  conference: Computer-Aided Design, 2025
+  year: 2025
+  ccf: B
+  note: ""  # 可选红色备注，比如 "Selected for video trailer."
+  pdf: https://www.sciencedirect.com/science/article/pii/S001044852500096X
+  code: 
+  page: ""
+  bibtex: ./publications/2025/CAD-01/bibtex.txt
+  image: ./publications/2025/CAD-01/figure.png

@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>{% if page.title %}{{ page.title }} - {% endif %}{{ site.title }}</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Crimson+Text:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="{{ '/assets/css/styles.css' | relative_url }}">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            background: '#fefffe',
+            foreground: '#0f172a',
+            primary: '#1e293b',
+            accent: '#d4a562',
+            'accent-dark': '#b88a4d',
+            muted: '#64748b',
+          },
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+            serif: ['Crimson Text', 'serif'],
+          }
+        }
+      }
+    }
+  </script>
+</head>
+
+<body class="bg-background text-foreground antialiased font-sans">
+  {%- comment -%}
+    Global site data (from _data/site.yml)
+    Preferred: site.data.site.profile.name.en
+    Backward compatible: site.data.site.profile.name_en
+  {%- endcomment -%}
+  {% assign site_data = site.data.site %}
+  {% assign sp = site_data.profile %}
+  {% assign site_name =
+      sp.name.en
+      | default: sp.name_en
+      | default: site.title
+      | default: "Your Name" %}
+
+  <!-- ===== NAV (inlined) ===== -->
+  <nav class="top-nav glass fixed top-0 left-0 right-0 z-50 transition-all duration-300">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex justify-between items-center h-16 lg:h-20">
+
+        <!-- Logo/Name -->
+        <div class="flex-shrink-0">
+          <a href="{{ '/' | relative_url }}"
+             class="text-xl lg:text-2xl font-serif font-semibold text-primary hover:text-accent transition-colors duration-200">
+            {{ site_name }}
+          </a>
+        </div>
+
+        <!-- Desktop Navigation -->
+        <div class="hidden lg:block">
+          <div class="ml-10 flex items-center space-x-8">
+            <ul class="nav-links flex space-x-8">
+              <li><a href="#homepage" class="nav-item">Homepage</a></li>
+              <li><a href="#about" class="nav-item">About Me</a></li>
+              <li><a href="#research-thrust" class="nav-item">Research Thrust</a></li>
+              <li><a href="#latest-news" class="nav-item">News</a></li>
+              <li><a href="#publications" class="nav-item">Publications</a></li>
+              <li><a href="#honors" class="nav-item">Honors</a></li>
+              <li><a href="#educations" class="nav-item">Education</a></li>
+              <li><a href="#experience" class="nav-item">Experience</a></li>
+              <li><a href="#services" class="nav-item">Service</a></li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Mobile Menu Button -->
+        <div class="lg:hidden flex items-center">
+          <button class="mobile-menu-btn p-2 rounded-md text-neutral-600 hover:text-primary" aria-label="Open menu">
+            <i class="fas fa-bars"></i>
+          </button>
+        </div>
+      </div>
+
+      <!-- Mobile Menu -->
+      <div class="mobile-menu hidden lg:hidden absolute top-16 left-0 w-full bg-white/95 backdrop-blur-md border-b border-neutral-200 shadow-lg" id="mobile-menu">
+        <ul class="flex flex-col py-4 px-4 space-y-4">
+          <li><a href="#homepage" class="mobile-nav-item block text-neutral-600 hover:text-primary font-medium">Homepage</a></li>
+          <li><a href="#about" class="mobile-nav-item block text-neutral-600 hover:text-primary font-medium">About Me</a></li>
+          <li><a href="#research-thrust" class="mobile-nav-item block text-neutral-600 hover:text-primary font-medium">Research Thrust</a></li>
+          <li><a href="#latest-news" class="mobile-nav-item block text-neutral-600 hover:text-primary font-medium">News</a></li>
+          <li><a href="#publications" class="mobile-nav-item block text-neutral-600 hover:text-primary font-medium">Publications</a></li>
+          <li><a href="#honors" class="mobile-nav-item block text-neutral-600 hover:text-primary font-medium">Honors</a></li>
+          <li><a href="#educations" class="mobile-nav-item block text-neutral-600 hover:text-primary font-medium">Education</a></li>
+          <li><a href="#experience" class="mobile-nav-item block text-neutral-600 hover:text-primary font-medium">Experience</a></li>
+          <li><a href="#services" class="mobile-nav-item block text-neutral-600 hover:text-primary font-medium">Service</a></li>
+        </ul>
+      </div>
+
+    </div>
+  </nav>
+  <!-- ===== /NAV ===== -->
+
+  <!-- Page Content -->
+  {{ content }}
+
+  <!-- ===== FOOTER (inlined) ===== -->
+  <footer class="bg-white border-t border-neutral-200 py-8 mt-12">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <p class="text-neutral-500 text-sm">
+        &copy; <span id="current-year"></span> {{ site_name }}. All rights reserved.<br>
+        Powered by <span class="text-accent hover:text-accent-dark">AcaNova-X Template</span>
+      </p>
+    </div>
+  </footer>
+
+  <script>
+    document.getElementById('current-year').textContent = new Date().getFullYear();
+  </script>
+
+  <script src="{{ '/assets/js/script.js' | relative_url }}"></script>
+</body>
+</html>

@@ -1,0 +1,131 @@
+{%- comment -%}
+  Usage:
+    {% include publication.html item=p %}
+
+  Expected fields:
+    - title
+    - authors (may contain HTML)
+    - conference (e.g., "Computer-Aided Design, 2025")
+    - conference_short (optional, e.g., "CAD")
+    - year (optional, number/string)
+    - ccf (optional, e.g., "A/B/C")
+    - note (optional)
+    - image (optional) OR thumbnail (optional)
+    - page/pdf/code/video/bibtex (optional links)
+
+  DOM contract (keep stable for existing CSS):
+    .pub-card.publication-item
+      .pub-left.publication-left
+      .pub-right.publication-right
+{%- endcomment -%}
+
+{% assign p = include.item %}
+
+{%- comment -%} ---------- Image (supports local path or absolute URL) ---------- {%- endcomment -%}
+{% assign img = p.image | default: p.thumbnail | default: "" %}
+
+{%- comment -%} ---------- Venue parsing ---------- {%- endcomment -%}
+{% assign conf_full = p.conference | default: "" | strip %}
+{% assign conf_name = conf_full %}
+{% if conf_full contains "," %}
+  {% assign conf_name = conf_full | split: "," | first | strip %}
+{% endif %}
+
+{%- assign conf_year = p.year | default: "" | append: "" | strip -%}
+{%- if conf_year == "" and conf_full contains "," -%}
+  {%- assign conf_year = conf_full | split: "," | last | strip -%}
+{%- endif -%}
+{%- assign year_text = conf_year -%}
+
+{%- comment -%}
+  Dynamic CCF class:
+    "A"/"B"/"C" -> "ccf-a"/"ccf-b"/"ccf-c"
+  Keep compatible with existing CSS (.ccf-a/.ccf-b/.ccf-c).
+{%- endcomment -%}
+{% assign ccf_raw = p.ccf | default: "" | strip | upcase %}
+{% assign ccf_letter = "" %}
+{% assign ccf_class = "" %}
+{% if ccf_raw != "" %}
+  {% assign ccf_letter = ccf_raw | slice: 0, 1 | downcase %}
+  {% assign ccf_class = "ccf-" | append: ccf_letter %}
+{% endif %}
+
+<div class="pub-card publication-item">
+  <div class="pub-left publication-left">
+    {% if img != "" %}
+      {% if img contains "://" %}
+        <img class="pub-img publication-img" src="{{ img }}" alt="{{ p.title | default: 'paper image' | escape }}">
+      {% else %}
+        <img class="pub-img publication-img" src="{{ img | relative_url }}" alt="{{ p.title | default: 'paper image' | escape }}">
+      {% endif %}
+    {% else %}
+      <div class="pub-img-placeholder publication-img-placeholder"><i class="fas fa-image"></i></div>
+    {% endif %}
+
+    {% if ccf_raw != "" %}
+      <span class="pub-badge publication-badge {{ ccf_class }}" data-ccf="{{ ccf_letter }}">
+        CCF {{ ccf_raw }}
+      </span>
+    {% endif %}
+  </div>
+
+  <div class="pub-right publication-right">
+    <div class="pub-title publication-title">{{ p.title | default: "" | escape }}</div>
+
+    {% if p.authors and p.authors != "" %}
+      {%- comment -%}
+        authors may contain HTML; do NOT escape to preserve formatting.
+      {%- endcomment -%}
+      <div class="pub-authors publication-authors">{{ p.authors }}</div>
+    {% endif %}
+
+    <!-- Venue -->
+    <div class="pub-venue publication-venue {% if conf_name != "" %}has-full{% endif %}">
+      {% if conf_name != "" %}
+        <span class="pub-venue-full publication-venue-full">{{ conf_name | escape }}</span>
+      {% endif %}
+
+      {% if p.conference_short and p.conference_short != "" %}
+        <span class="pub-venue-short publication-venue-short">
+          {{ p.conference_short | escape }}{% if year_text != "" %} {{ year_text | escape }}{% endif %}
+        </span>
+      {% elsif year_text != "" %}
+        <span class="pub-venue-short publication-venue-short">{{ year_text | escape }}</span>
+      {% endif %}
+    </div>
+
+    {% if p.note and p.note != "" %}
+      <div class="pub-note publication-note">{{ p.note | escape }}</div>
+    {% endif %}
+
+    <div class="pub-links publication-links">
+      {% if p.page and p.page != "" %}
+        <a href="{{ p.page | escape }}" target="_blank" rel="noopener">Project Page</a>
+      {% endif %}
+
+      {% if p.pdf and p.pdf != "" %}
+        {% if p.pdf contains "://" %}
+          <a href="{{ p.pdf | escape }}" target="_blank" rel="noopener">PDF</a>
+        {% else %}
+          <a href="{{ p.pdf | relative_url }}" target="_blank" rel="noopener">PDF</a>
+        {% endif %}
+      {% endif %}
+
+      {% if p.code and p.code != "" %}
+        <a href="{{ p.code | escape }}" target="_blank" rel="noopener">Code</a>
+      {% endif %}
+
+      {% if p.video and p.video != "" %}
+        <a href="{{ p.video | escape }}" target="_blank" rel="noopener">Video</a>
+      {% endif %}
+
+      {% if p.bibtex and p.bibtex != "" %}
+        {% if p.bibtex contains "://" %}
+          <a href="{{ p.bibtex | escape }}" target="_blank" rel="noopener">BibTeX</a>
+        {% else %}
+          <a href="{{ p.bibtex | relative_url }}" target="_blank" rel="noopener">BibTeX</a>
+        {% endif %}
+      {% endif %}
+    </div>
+  </div>
+</div>

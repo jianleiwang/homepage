@@ -1,0 +1,18 @@
+# _data/news.yml
+- date: 2024-09-01
+  text: "I started pursuing my PhD at Xi'an Jiaotong University."
+  link: ""
+  link_text: ""
+  pinned: true
+
+- date: 2025-04-26
+  text: "Our paper, 'Modular Shape Modeling with Controllable Discrete Equivalence Class Distribution' has been conditionally accepted by Symposium on Solid and Physical Modeling 2025."
+  link: ""
+  link_text: ""
+  pinned: true
+
+- date: 2025-10-29
+  text: "I participated in the international conference Symposium on Solid and Physical Modeling 2025 in Hangzhou."
+  link: ""
+  link_text: ""
+  pinned: true

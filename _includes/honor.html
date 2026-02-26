@@ -1,0 +1,75 @@
+{%- comment -%}
+  Usage:
+    {% include honor.html item=h %}
+
+  Supported fields:
+    - date (string/date)  e.g. 2025-08-01 / 2025-08 / 2025 / "Aug. 2025"
+    - year (number/string) fallback if date not provided
+    - title_en / title (primary)
+    - title_zh (optional)
+    - org (optional)
+    - note (optional)
+
+  DOM contract (keep stable for existing CSS):
+    .honor-item
+      .honor-year
+      .honor-content
+        h3
+        div (meta lines)
+{%- endcomment -%}
+
+{% assign h = include.item %}
+
+{%- comment -%}
+  Date text resolution strategy:
+  - If h.date is ISO-like (contains "-"), try formatting to "%b. %Y"
+  - Otherwise keep as-is (e.g., "Aug. 2025" / "2025")
+  - If no date, fallback to h.year
+{%- endcomment -%}
+
+{%- assign raw_date = h.date | default: "" -%}
+{%- assign date_text = "" -%}
+
+{%- if raw_date != "" -%}
+  {%- assign raw_str = raw_date | append: "" -%}
+
+  {%- if raw_str contains "-" -%}
+    {%- assign fmt = raw_date | date: "%b. %Y" -%}
+    {%- if fmt == raw_str -%}
+      {%- assign date_text = raw_str -%}
+    {%- else -%}
+      {%- assign date_text = fmt -%}
+    {%- endif -%}
+  {%- else -%}
+    {%- assign date_text = raw_str -%}
+  {%- endif -%}
+{%- else -%}
+  {%- assign date_text = h.year | default: "" | append: "" -%}
+{%- endif -%}
+
+{%- assign t_en = h.title_en | default: h.title | default: "" -%}
+{%- assign t_zh = h.title_zh | default: "" -%}
+{%- assign org  = h.org  | default: "" -%}
+{%- assign note = h.note | default: "" -%}
+
+<div class="honor-item">
+  <div class="honor-year">{{ date_text | escape }}</div>
+
+  <div class="honor-content">
+    {%- if t_en != "" -%}
+      <h3>{{ t_en | escape }}</h3>
+    {%- endif -%}
+
+    {%- if t_zh != "" -%}
+      <div>{{ t_zh | escape }}</div>
+    {%- endif -%}
+
+    {%- if org != "" -%}
+      <div>{{ org | escape }}</div>
+    {%- endif -%}
+
+    {%- if note != "" -%}
+      <div>{{ note | escape }}</div>
+    {%- endif -%}
+  </div>
+</div>

@@ -1,0 +1,8 @@
+@article{wang2025interactive,
+  title={Interactive design of developable surfaces by patch-based learning},
+  author={Wang, Chaoyun and Wang, Jianlei and Tang, Chengcheng and Zheng, Nanning and Jiang, Caigui},
+  journal={Computer-Aided Design},
+  pages={103970},
+  year={2025},
+  publisher={Elsevier}
+}

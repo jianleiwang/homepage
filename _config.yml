@@ -1,0 +1,10 @@
+# _config.yml
+title: "Jianlei.W"
+description: "Academic homepage"
+url: ""
+baseurl: ""
+
+markdown: kramdown
+
+include:
+  - _homepage

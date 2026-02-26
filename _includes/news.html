@@ -1,0 +1,65 @@
+{%- comment -%}
+Usage:
+  {% include news.html item=item %}
+
+item fields:
+  - date (string/date, e.g. "2025-12-10" or "2025-12" or "Aug. 2025")
+  - text (string, may contain Markdown/HTML; recommended: single paragraph)
+  - link (optional)
+  - link_text (optional)
+  - pinned (optional boolean)
+  - emoji (optional; default 🎉)
+{%- endcomment -%}
+
+{% assign item = include.item %}
+
+{%- comment -%}
+  Date display strategy:
+  - If date looks like ISO (contains "-"), format as "%Y.%m" when parseable.
+  - Otherwise keep as-is (e.g., "Aug. 2025").
+{%- endcomment -%}
+{%- assign raw_date = item.date | default: "" -%}
+{%- assign date_text = "" -%}
+
+{%- if raw_date != "" -%}
+  {%- assign raw_str = raw_date | append: "" -%}
+  {%- if raw_str contains "-" -%}
+    {%- assign fmt = raw_date | date: "%Y.%m" -%}
+    {%- if fmt == raw_str -%}
+      {%- assign date_text = raw_str -%}
+    {%- else -%}
+      {%- assign date_text = fmt -%}
+    {%- endif -%}
+  {%- else -%}
+    {%- assign date_text = raw_str -%}
+  {%- endif -%}
+{%- endif -%}
+
+{%- assign emoji = item.emoji | default: "🎉" -%}
+
+<div class="news-item{% if item.pinned %} pinned{% endif %}">
+  <div class="news-date">
+    {% if date_text != "" %}
+      {{ date_text | escape }}
+    {% endif %}
+  </div>
+
+  <div class="news-content">
+    <span>{{ emoji }}</span>
+    <span>
+      {%- comment -%}
+        markdownify wraps plain text in <p>...</p>.
+        We strip one pair to keep inline layout stable.
+        Avoid multi-paragraph Markdown here.
+      {%- endcomment -%}
+      {{ item.text | default: "" | markdownify
+        | replace: "<p>", "" | replace: "</p>", "" }}
+    </span>
+
+    {% if item.link and item.link != "" %}
+      <a href="{{ item.link | escape }}" target="_blank" rel="noopener noreferrer">
+        {{ item.link_text | default: "Link" | escape }}
+      </a>
+    {% endif %}
+  </div>
+</div>

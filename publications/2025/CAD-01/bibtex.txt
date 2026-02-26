@@ -1,0 +1,8 @@
+@article{wang2025modular,
+  title={Modular shape modeling with controllable discrete equivalence class distribution},
+  author={Wang, Jianlei and Wu, Zeyang and Tian, Yongqi and Jiang, Caigui},
+  journal={Computer-Aided Design},
+  pages={103935},
+  year={2025},
+  publisher={Elsevier}
+}
